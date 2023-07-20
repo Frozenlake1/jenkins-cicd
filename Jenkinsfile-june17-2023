@@ -11,7 +11,7 @@ pipeline{
                 git 'https://github.com/Frozenlake1/jenkins-cicd.git'
             }
         }
-    }
+    
 
         stage('Test+package+build'){
 
@@ -45,6 +45,6 @@ pipeline{
             }
         }
 
- 
+    }
    
 }
