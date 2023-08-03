@@ -1,0 +1,53 @@
+node{
+
+    def mavenHome  = tool name : 'maven3.9.3'
+    stage('1-clone the code'){
+        git 'https://github.com/Frozenlake1/jenkins-cicd.git'
+    }
+
+    stage('2-Build and Test'){
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+
+    stage('3-codequality-analysis'){
+        sh "${mavenHome}/bin/mvn sonar:sonar"
+    }
+
+    stage('4-upload-2-nexus'){
+        sh "${mavenHome}/bin/mvn deploy"
+    }
+
+    stage('deploy-dev'){
+        sh "echo 'deploy to dev environment'"
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'dev', war: 'target/*war'    
+    }
+
+    stage('approvalgate'){
+        sh "echo 'please contact admin for approval' "
+        timeout(time:5, unit: 'DAYS'){
+            input message: 'Approve application ready for deployment to dev'
+        }
+
+
+    }
+
+    stage('deploy-to-staging'){
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'staging-environment', war: 'target/*war'
+    }
+
+    stage('approvalgate'){
+        sh "echo 'please contact admin for approval' "
+        timeout(time:10, unit: 'DAYS'){
+            input message: 'Approve application ready for deployment to production'
+        }
+
+    }
+
+    stage('deploy to prod'){
+        
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'production-environment', war: 'target/*war'
+    }
+
+    
+
+}
