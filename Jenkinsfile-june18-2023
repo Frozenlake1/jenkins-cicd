@@ -19,7 +19,7 @@ node{
 
     stage('deploy-dev'){
         sh "echo 'deploy to dev environment'"
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'dev', war: 'target/*war'    
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://3.86.195.55:8009/')], contextPath: 'dev', war: 'target/*war'    
     }
 
     stage('approvalgate'){
@@ -32,7 +32,7 @@ node{
     }
 
     stage('deploy-to-staging'){
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'staging-environment', war: 'target/*war'
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://3.86.195.55:8009/')], contextPath: 'staging-environment', war: 'target/*war'
     }
 
     stage('approvalgate'){
@@ -45,7 +45,7 @@ node{
 
     stage('deploy to prod'){
         
-        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://52.87.181.47:8009/')], contextPath: 'production-environment', war: 'target/*war'
+        deploy adapters: [tomcat9(credentialsId: 'tomcat-deploy', path: '', url: 'http://3.86.195.55:8009/')], contextPath: 'production-environment', war: 'target/*war'
     }
 
     
