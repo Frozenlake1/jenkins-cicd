@@ -1,6 +1,6 @@
 node{
 
-    def mavenHome  = tool name : 'maven3.9.3'
+    def mavenHome  = tool name : 'maven3.9.1'
     stage('1-clone the code'){
         git 'https://github.com/Frozenlake1/jenkins-cicd.git'
     }
